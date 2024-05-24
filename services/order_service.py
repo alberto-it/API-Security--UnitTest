@@ -12,9 +12,6 @@ def save(order_data):
         session.refresh(new_order)
         return new_order
 
-def find_all(page=1, per_page=10, search_term=None):
-    query = db.select(Order)
-    if search_term:
-        query = query.where(Order.name.ilike(f"%{search_term}%"))
+def find_all(page=1, per_page=10):
     query = query.limit(per_page).offset((page-1)*per_page)
     return db.session.execute(query).scalars().all()
