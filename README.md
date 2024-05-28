@@ -1,4 +1,4 @@
-CT E-Commerce API
+## Advanced E-Commerce API
 
 **Streamlined Functionality**
 
@@ -40,7 +40,7 @@ The API offers a robust set of features for managing customers, products, orders
 **Technical Architecture**
 
 
-
+* **Swagger:** The API utilizes Swagger for comprehensive API documentation. This human-readable and machine-readable documentation provides a clear understanding of the API's functionalities, including endpoints, request parameters, response structures, and error codes.
 * **Flask:** Leverages the power and flexibility of the Flask web development framework.
 * **Flask-SQLAlchemy:** Employs Flask-SQLAlchemy as an Object Relational Mapper (ORM) to streamline database interactions.
 * **Marshmallow:** Integrates Marshmallow for robust data validation and serialization, ensuring data integrity within API requests and responses.
