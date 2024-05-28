@@ -1,5 +1,5 @@
 #!/bin/sh
-'''exec' "/Users/albertorodriguez/Documents/CodingTemple/BE Specialization/Week2/Day1/myenv/bin/python3.12" "$0" "$@"
+'''exec' "/Users/albertorodriguez/Documents/CodingTemple/BE Specialization/Advanced E-commerce API/myenv/bin/python3.12" "$0" "$@"
 ' '''
 # -*- coding: utf-8 -*-
 import re

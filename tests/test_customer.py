@@ -42,13 +42,11 @@ class TestCustomersEndpoint(unittest.TestCase):
     @patch('services.customer_service.save')
     def test_missing_phone_payload(self, mock_save):
         name = fake.name()
-        phone = fake.phone_number()
         username = fake.user_name()
         email = fake.email()
         mock_customer = MagicMock()
         mock_customer.id = 1
         mock_customer.name = name
-        mock_customer.phone = phone
         mock_customer.username = username
         mock_customer.email = email
         mock_save.return_value = mock_customer
@@ -70,18 +68,16 @@ class TestCustomersEndpoint(unittest.TestCase):
         name = fake.name()
         phone = fake.phone_number()
         username = fake.user_name()
-        email = fake.email()
         mock_customer = MagicMock()
         mock_customer.id = 1
         mock_customer.name = name
         mock_customer.phone = phone
         mock_customer.username = username
-        mock_customer.email = email
         mock_save.return_value = mock_customer
 
         payload = {
             "name": name,
-            "email": email,
+            "phone": phone,
             "username": username,
             "password": fake.password()
         }

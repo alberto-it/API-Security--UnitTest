@@ -9,7 +9,15 @@ class CustomerSchema(ma.Schema):
     username = fields.String(required=True)
     password = fields.String(required=True)
 
+class CustomerUpdateSchema(ma.Schema):
+    id = fields.Integer(required=False)
+    name = fields.String(required=False)
+    email = fields.String(required=False)
+    phone = fields.String(required=False)
+
+
 customer_input_schema = CustomerSchema()
 customer_output_schema = CustomerSchema(exclude=["password"])
 customers_schema = CustomerSchema(many=True, exclude=["password"])
 customer_login_schema = CustomerSchema(only=["username", "password"])
+customer_update_schema = CustomerUpdateSchema()

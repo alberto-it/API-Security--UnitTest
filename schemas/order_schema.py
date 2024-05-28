@@ -1,15 +1,22 @@
 from marshmallow import fields
 from schemas import ma
+from schemas.product_schema import ProductIdSchema
+
 
 class OrderSchema(ma.Schema):
-    id = fields.Integer(required=False) 
+    id = fields.Integer(required=False)
+    order_dt = fields.Date(required=False)
     customer_id = fields.Integer(required=True)
-    product_id = fields.Integer(required=True)
-    quantity = fields.Integer(required=True)
-    total_price = fields.Float(required=True)
-
-    class Meta:
-        fields = ("id", "customer_id", "product_id", "quantity","total_price")
+    products = fields.Nested(ProductIdSchema, required=True, many=True)
 
 order_schema = OrderSchema()
 orders_schema = OrderSchema(many=True)
+
+class TrackOrderSchema(ma.Schema):
+    id = fields.Integer(required=False)
+    order_dt = fields.Date(required=False)
+    customer_id = fields.Integer(required=True)
+    status = fields.String(required=False) 
+    expected_dt = fields.Date(required=False) 
+
+track_order_schema = TrackOrderSchema()

@@ -1,0 +1,615 @@
+swagger: "2.0"
+info:
+  title: "E-Commerce API"
+  description: "An API to manage E-Commerce"
+  version: "1.0.0"
+host: "127.0.0.1:5000"
+schemes:
+  - "http"
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+
+paths:
+  /token/:
+    post:
+      summary: "Endpoint for User Authentication"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Credentials for login"
+          required: true
+          schema:
+            $ref: "#/definitions/TokenCredentials"
+      responses:
+        200:
+          description: "Login Successful"
+          schema:
+            $ref: "#/definitions/TokenResponse"
+          examples:
+            application/json:
+              status: "success"
+              messsage: "You have successfully authenticated yourself"
+              token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTY2ODAxNDcsImlhdCI6MTcxNjY3NjU0Nywic3ViIjo1fQ.esD25ye4p85e2aJf627Vjp5HlgfgJSosfF9Gub0Fxa8"
+        401:
+          description: "Unsuccessful login"
+          schema:
+            $ref: "#/definitions/TokenResponse"
+          examples:
+            application/json:
+              status: "error"
+              message: "Username and/or password is incorrect"
+  paths:
+  /customers:
+    post:
+      summary: "Create Customer"
+      parameters:
+        - in: "body"
+          name: "Request"
+          required: true
+          schema:
+            $ref: "#/definitions/CustomerRequest"
+      tags: ["Customers"]
+      responses:
+        201:
+          description: "Customer Created"
+          schema:
+            $ref: "#/definitions/CustomerResponse"
+        400:
+          description: "Invalid Input"
+    get:
+      summary: "Retrieve All Customers (pagination)"
+      description: "Retrieve a list of all customers with pagination"
+      tags: ["Customers"]
+      parameters:
+        - in: "query"
+          name: "page"
+          type: "integer"
+          description: "Page number (optional, default is 1)"
+        - in: "query"
+          name: "per_page"
+          type: "integer"
+          description: "Customers per page (optional, default is 10)"
+      responses:
+        200:
+          description: "Successful Response"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/CustomerResponse"
+  /customers/{customer_id}:
+    get:
+      summary: "Read Customer"
+      description: "Retrieve a specific customer by ID"
+      tags: ["Customers"]
+      parameters:
+        - in: "path"
+          name: "customer_id"
+          type: "integer"
+          required: true
+          description: "ID of the customer to retrieve"
+      responses:
+        200:
+          description: "Successful Response"
+          schema:
+            $ref: "#/definitions/CustomerResponse"
+        404:
+          description: "Customer Not Found"
+    put:
+      summary: "Update Customer"
+      description: "As per specs, only allowing modifications to the customer name, email and phone number here"
+      tags: ["Customers"]
+      parameters:
+        - in: "path"
+          name: "customer_id"
+          type: "integer"
+          required: true
+          description: "ID of the customer to update"
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/CustomerUpdate"
+      responses:
+        200:
+          description: "Customer Updated"
+        400:
+          description: "Invalid Input"
+        404:
+          description: "Customer Not Found"
+    delete:
+      summary: "Delete Customer"
+      description: "Delete a customer by ID"
+      tags: ["Customers"]
+      parameters:
+        - in: "path"
+          name: "customer_id"
+          type: "integer"
+          required: true
+          description: "ID of the customer to delete"
+      responses:
+        204:
+          description: "Customer Deleted"
+        404:
+          description: "Customer Not Found"
+  /products:
+    post:
+      summary: "Create Product"
+      description: "Create a new product"
+      tags: ["Products"]
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Product data"
+          required: true
+          schema:
+            $ref: "#/definitions/ProductRequest"
+      responses:
+        201:
+          description: "Product Created"
+          schema:
+            $ref: "#/definitions/ProductResponse"
+        400:
+          description: "Invalid Input"
+    get:
+      summary: "List Products"
+      description: "Retrieve a list of all products with optional partial search and pagination"
+      tags: ["Products"]
+      parameters:
+        - in: "query"
+          name: "search"
+          type: "string"
+          description: "Search for product name (optional)"
+        - in: "query"
+          name: "page"
+          type: "integer"
+          description: "Page number (pagination, starts at 1) (optional)"
+        - in: "query"
+          name: "per_page"
+          type: "integer"
+          description: "Items per page (pagination) (optional)"
+      responses:
+        200:
+          description: "Successful Response"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/ProductResponse"
+  /products/{product_id}:
+    get:
+      summary: "Read Product"
+      description: "Retrieve a specific product by ID"
+      tags: ["Products"]
+      parameters:
+        - in: "path"
+          name: "product_id"
+          type: "integer"
+          required: true
+          description: "ID of the product to retrieve"
+      responses:
+        200:
+          description: "Successful Response"
+          schema:
+            $ref: "#/definitions/ProductResponse"
+        404:
+          description: "Product Not Found"
+    put:
+      summary: "Update Product"
+      description: "Update an existing product"
+      tags: ["Products"]
+      parameters:
+        - in: "path"
+          name: "product_id"
+          type: "integer"
+          required: true
+          description: "ID of the product to update"
+        - in: "body"
+          name: "body"
+          description: "Product data for update"
+          required: true
+          schema:
+            $ref: "#/definitions/ProductRequest"
+      responses:
+        200:
+          description: "Product Updated"
+          schema:
+            $ref: "#/definitions/ProductResponse"
+        400:
+          description: "Invalid Input"
+        404:
+          description: "Product Not Found"
+    delete:
+      summary: "Delete Product"
+      description: "Delete a product by ID"
+      tags: ["Products"]
+      parameters:
+        - in: "path"
+          name: "product_id"
+          type: "integer"
+          required: true
+          description: "ID of the product to delete"
+      responses:
+        204:
+          description: "Product Deleted"
+        404:
+          description: "Product Not Found"
+
+  /orders:
+    post:
+      summary: "Place Order"
+      description: "Creates a new order. Request should have one customer_id and a one or more product_ids."
+      tags: ["Orders"]
+      parameters:
+        - in: "body"
+          name: "Request"
+          required: true
+          schema:
+            $ref: "#/definitions/OrderRequest"
+      responses:
+        201:
+          description: "Order Created"
+        400:
+          description: "Invalid Input"
+    get:
+      summary: "Retrieve All Orders"
+      tags: ["Orders"]
+      responses:
+        200:
+          description: "Successful Response"
+
+  /orders/{order_id}:
+    get:
+      summary: "Retrieve Order"
+      description: "Retrieve a specific order by its Order ID"
+      tags: ["Orders"]
+      parameters:
+        - in: "path"
+          name: "order_id"
+          type: "integer"
+          required: true
+          description: "ID of the order to retrieve"
+      responses:
+        200:
+          description: "Successful Response"
+        404:
+          description: "Order Not Found"
+
+  /orders/{order_id}/track:
+    get:
+      summary: "Track Order"
+      description: "Track a specific order by its Order ID"
+      tags: ["Orders"]
+      parameters:
+        - in: "path"
+          name: "order_id"
+          type: "integer"
+          required: true
+          description: "ID of the order to retrieve"
+      responses:
+        200:
+          description: "Successful Response"
+        404:
+          description: "Order Not Found"
+
+  /cart:
+    post:
+      summary: Add Items to Cart | Update Item Quantity
+      description: "Executing for the first time for a customer will add items to the customer's shopping cart. Subsequent executions for the customer will add additional items to the cart. Executing multiple time with the same item will update the quantity. Negative quanities remove items (e.g. 'quantity': -1 will remove one item). Code will not allow quantity to be updated to less than zero."
+      tags: ["Shopping Cart"]
+      parameters:
+        - in: "body"
+          name: "Request"
+          required: true
+          schema:
+            $ref: "#/definitions/ShoppingCartItem"
+      responses:
+        201:
+          description: Products added successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Success message
+        400:
+          description: Bad request (e.g., customer not found)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+
+  /cart/{customer_id}:
+    get:
+      summary: View Cart
+      description: Retrieve shopping cart contents for a customer.
+      tags: ["Shopping Cart"]
+      parameters:
+        - in: "path"
+          name: customer_id
+          type: integer
+          description: ID of the customer
+      responses:
+        200:
+          description: Shopping cart contents
+          content:
+            application/json:
+              schema:
+                $ref: "#/definitions/ShoppingCart"
+    delete:
+      summary: Empty Cart
+      description: Empties a customer's cart (requires confirmation)
+      tags: ["Shopping Cart"]
+      parameters:
+        - in: path
+          name: customer_id
+          description: The customer's unique identifier
+          required: true
+          schema:
+            type: integer
+        - in: query
+          name: confirm
+          description: Confirmation parameter to prevent accidental deletion (must be 'yes')
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Cart emptied successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Success message
+                    example: Cart emptied successfully
+        "400":
+          description: Customer not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+                    example: Customer not found
+        "405":
+          description: Confirmation required
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+                    example: Include confirm=yes to empty cart
+
+  /cart/{customer_id}/item/{product_id}:
+    delete:
+      summary: Remove Item from Cart
+      description: Removes one item/product from a customer's cart.
+      tags: ["Shopping Cart"]
+      parameters:
+        - in: path
+          name: customer_id
+          description: The customer's unique identifier
+          required: true
+          schema:
+            type: integer
+        - in: path
+          name: product_id
+          description: The product's unique identifier
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Item removed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Success message
+                    example: Item removed from cart
+        "400":
+          description: Customer not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+                    example: Customer not found
+        "404":
+          description: Product not found in cart
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+                example: Product ID not found for this customer
+
+definitions:
+  TokenCredentials:
+    type: "object"
+    properties:
+      username:
+        type: "string"
+        description: "The username of the user"
+      password:
+        type: "string"
+        format: "password"
+        description: "The password associated with username"
+    required:
+      - "username"
+      - "password"
+  TokenResponse:
+    type: "object"
+    properties:
+      status:
+        type: "string"
+        description: "Status of the operation"
+      message:
+        type: "string"
+        description: "Message indicating the success or failure"
+      token:
+        type: "string"
+        description: "Authenticated token"
+  UnauthorizedError:
+    type: "object"
+    properties:
+      error:
+        type: "string"
+        description: "The description of the error"
+        example: "Invalid token. Please try again"
+
+  securityDefinitions:
+    bearerAuth:
+      type: apiKey
+      name: Authorization
+      in: header
+
+  CustomerUpdate:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+        description: "Customer's email address"
+        example: "JalenB@Knicks.com"
+      name:
+        type: "string"
+        description: "Customer's full name"
+        example: "Jalen Brunson"
+      phone:
+        type: "string"
+        description: "Customer's phone number"
+        example: "(555) 987-4321"
+  Customer:
+    allOf:
+      - $ref: "#/definitions/CustomerUpdate"
+    type: "object"
+    properties:
+      username:
+        type: "string"
+        description: "Customer's username"
+        example: "JBSmooth"
+  CustomerResponse:
+    allOf:
+      - $ref: "#/definitions/Customer"
+      - type:
+        properties:
+          id:
+            type: "integer"
+            description: "Customer's unique ID"
+            readonly: true
+            example: 11
+  CustomerRequest:
+    allOf:
+      - $ref: "#/definitions/Customer"
+      - type:
+        properties:
+          password:
+            type: "string"
+            description: "Customer's password"
+            example: "MVP2025"
+
+  ProductRequest:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        description: "Name of the product"
+        example: "TV"
+      price:
+        type: "number"
+        description: "Price of the product"
+        example: 1000
+  ProductResponse:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        description: "Product's unique ID"
+        example: 3
+        readonly: true
+      name:
+        type: "string"
+        description: "Name of the product"
+        example: "TV"
+      price:
+        type: "number"
+        description: "Price of the product"
+        example: 1000
+
+  OrderRequest:
+    type: "object"
+    properties:
+      customer_id:
+        type: "integer"
+        description: "ID of the customer placing the order"
+        example: 1
+        required: true
+      products:
+        type: "array"
+        items:
+          $ref: "#/definitions/ProductId"
+        required: true
+
+  ProductId:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        description: "ID of the product in the order"
+        example: 2
+        required: true
+
+  ShoppingCart:
+    type: object
+    properties:
+      items:
+        type: array
+        items:
+          $ref: "#/definitions/ShoppingCartItem"
+
+  ShoppingCartItem:
+    type: "object"
+    properties:
+      customer_id:
+        type: "integer"
+        description: "ID of the customer placing the order"
+        example: 1
+        required: true
+      products:
+        type: "array"
+        items:
+          $ref: "#/definitions/CartProductId"
+
+  CartProductId:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        description: "ID of the product in the order"
+        example: 2
+      quantity:
+        type: "integer"
+        example: 2
