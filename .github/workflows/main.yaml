@@ -45,8 +45,8 @@ jobs:
 
       - name: Create Virtual Environment
         run: |
-          python -m venv myenv
-          source myenv/bin/activate
+          python -m venv venv
+          source venv/bin/activate
 
       - name: Install project dependencies
         run: |
@@ -71,8 +71,8 @@ jobs:
 
       - name: Create Virtual Environment
         run: |
-          python -m venv myenv
-          source myenv/bin/activate
+          python -m venv venv
+          source venv/bin/activate
 
       - name: Install project dependencies
         run: |
