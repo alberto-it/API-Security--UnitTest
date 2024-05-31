@@ -1,8 +1,6 @@
-name: Flask CI
-
 on:
   push:
-    branches: [main, master, dev]
+    branches: [main]
 
 jobs:
   build:
@@ -18,8 +16,8 @@ jobs:
 
       - name: Create Virtual Environment
         run: |
-          python -m venv venv
-          source venv/bin/activate
+          python -m venv myenv
+          source myenv/bin/activate
 
       - name: Install project dependencies
         run: |
@@ -31,7 +29,7 @@ jobs:
           echo "Python Version: $(python --version)"
           echo "Working Directory: $(pwd)"
           echo "Contents of Working Directory: $(ls -l)"
-          echo "Contents of site-packages: $(ls -l venv/lib/python*/site-packages)"
+          echo "Contents of site-packages: $(ls -l myenv/lib/python*/site-packages)"
 
   test:
     runs-on: ubuntu-latest
@@ -47,8 +45,8 @@ jobs:
 
       - name: Create Virtual Environment
         run: |
-          python -m venv venv
-          source venv/bin/activate
+          python -m venv myenv
+          source myenv/bin/activate
 
       - name: Install project dependencies
         run: |
@@ -56,7 +54,7 @@ jobs:
           python -m pip install -r requirements.txt
 
       - name: Run Tests
-        run: python test_app.py
+        run: python -m unittest tests/test_customer.py 
 
   deploy:
     runs-on: ubuntu-latest
@@ -73,8 +71,8 @@ jobs:
 
       - name: Create Virtual Environment
         run: |
-          python -m venv venv
-          source venv/bin/activate
+          python -m venv myenv
+          source myenv/bin/activate
 
       - name: Install project dependencies
         run: |
