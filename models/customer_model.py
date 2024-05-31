@@ -11,6 +11,7 @@ class Customer(Base):
     username: Mapped[str] = mapped_column(db.String(255))
     password: Mapped[str] = mapped_column(db.String(255))
     orders: Mapped[List['Order']] = db.relationship(back_populates='customer')
+    
     role_id: Mapped[int] = mapped_column(db.ForeignKey('roles.id'), default=1)
     role: Mapped["Role"] = db.relationship(back_populates='customers')
 
