@@ -38,8 +38,9 @@ jobs:
       DATABASE_URL: ${{ secrets.DATABASE_URL }} 
     steps:
       - name: Print Database URL
-        run: echo "Database URL: $DATABASE_URL"
-        
+        run: |
+          echo "Database URL: $DATABASE_URL"
+          
       - name: Checkout Code
         uses: actions/checkout@v2
 
