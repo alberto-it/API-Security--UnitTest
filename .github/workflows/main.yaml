@@ -35,8 +35,12 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     env:
-      SQLALCHEMY_DATABASE_URI: $(secrets.SQLALCHEMY_DATABASE_URI)
+      SQLALCHEMY_DATABASE_URI: ${{ secrets.SQLALCHEMY_DATABASE_URI }}
+
     steps:
+      - name: Print environment variable
+        run: echo "SQLALCHEMY_DATABASE_URI -> $SQLALCHEMY_DATABASE_URI"
+
       - name: Checkout Code
         uses: actions/checkout@v2
 
