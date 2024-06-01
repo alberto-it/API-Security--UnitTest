@@ -7,7 +7,6 @@ from limiter import limiter
 from caching import cache
 from flask_migrate import Migrate
 
-
 from models.customer_model import Customer
 from models.product_model import Product
 from models.order_model import Order
@@ -23,6 +22,8 @@ from routes.token_blueprint import token_bp
 
 from dotenv import load_dotenv
 load_dotenv()
+
+migrate = Migrate()
 
 SWAGGER_URL = '/api/docs'
 API_URL = '/static/swagger.yaml'
@@ -42,14 +43,14 @@ def create_app(config_name):
     cache.init_app(app)
     CORS(app)
 
-    migrate = Migrate(app, db)
-
     app.register_blueprint(customer_bp, url_prefix='/customers')
     app.register_blueprint(product_bp, url_prefix='/products')
     app.register_blueprint(order_bp, url_prefix='/orders')
     app.register_blueprint(cart_bp, url_prefix='/cart')
     app.register_blueprint(token_bp, url_prefix='/token')
     app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
+
+    migrate.init_app(app, db)
 
     limiter.limit("100 per day")(customer_bp)
     limiter.limit("100 per day")(product_bp)
