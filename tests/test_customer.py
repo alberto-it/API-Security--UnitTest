@@ -2,8 +2,14 @@ import unittest
 from unittest.mock import MagicMock, patch
 from app import create_app
 from faker import Faker
+import os
 
 fake = Faker()
+
+class DevelopmentConfig:
+    SQLALCHEMY_DATABASE_URI = os.environ.get('mysql+mysqlconnector://root:passW11!@localhost/advanced_e_commerce_db')
+    CACHE_TYPE = 'SimpleCache'
+    DEBUG = True
 
 class TestCustomersEndpoint(unittest.TestCase):
     def setUp(self):
@@ -86,4 +92,3 @@ class TestCustomersEndpoint(unittest.TestCase):
 
         self.assertEqual(response.status_code, 400)
         self.assertIn('email', response.json)
-
