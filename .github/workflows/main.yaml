@@ -54,7 +54,7 @@ jobs:
           python -m pip install -r requirements.txt
 
       - name: Set environment variables
-        env:
+        env: |
           SQLALCHEMY_DATABASE_URI: ${{ secrets.SQLALCHEMY_DATABASE_URI }}
 
       - name: Run Tests
