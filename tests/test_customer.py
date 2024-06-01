@@ -2,13 +2,11 @@ import unittest
 from unittest.mock import MagicMock, patch
 from app import create_app
 from faker import Faker
-import os
 
 fake = Faker()
-        
+
 class TestCustomersEndpoint(unittest.TestCase):
     def setUp(self):
-        os.environ['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:passW11!@localhost/advanced_e_commerce_db'
         app = create_app('DevelopmentConfig')
         app.config['TESTING'] = True
         self.app = app.test_client()
