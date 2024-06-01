@@ -5,14 +5,10 @@ from faker import Faker
 import os
 
 fake = Faker()
-
-class DevelopmentConfig:
-    SQLALCHEMY_DATABASE_URI = os.environ.get('mysql+mysqlconnector://root:passW11!@localhost/advanced_e_commerce_db')
-    CACHE_TYPE = 'SimpleCache'
-    DEBUG = True
-
+        
 class TestCustomersEndpoint(unittest.TestCase):
     def setUp(self):
+        os.environ['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:passW11!@localhost/advanced_e_commerce_db'
         app = create_app('DevelopmentConfig')
         app.config['TESTING'] = True
         self.app = app.test_client()
