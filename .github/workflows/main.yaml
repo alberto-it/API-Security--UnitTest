@@ -2,6 +2,10 @@ on:
   push:
     branches: [main]
 
+env:
+  SQLALCHEMY_DATABASE_URI: $(secrets.SQLALCHEMY_DATABASE_URI)
+run: echo "SQLALCHEMY_DATABASE_URI: $SQLALCHEMY_DATABASE_URI"
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -52,11 +56,6 @@ jobs:
         run: |
           python -m pip install -U pip
           python -m pip install -r requirements.txt
-      
-      - name: Set environment variables
-        env:
-          SQLALCHEMY_DATABASE_URI: $secrets.SQLALCHEMY_DATABASE_URI
-        run: echo "Hi"
 
       - name: Run Tests
         run: python -m unittest tests/test_*.py
