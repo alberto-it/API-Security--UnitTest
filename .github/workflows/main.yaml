@@ -36,11 +36,8 @@ jobs:
     needs: build
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      
-    steps:
-      - name: Print environment variable
-        run: echo $DATABASE_URL
 
+    steps:
       - name: Checkout Code
         uses: actions/checkout@v2
 
