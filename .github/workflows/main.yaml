@@ -60,10 +60,9 @@ jobs:
       - name: Set environment variables
         env:
           SQLALCHEMY_DATABASE_URI: ${{ secrets.SQLALCHEMY_DATABASE_URI }}
-          
+
       - name: Print Database URL (debug)
-        run: |
-          echo "Database URL: $SQLALCHEMY_DATABASE_URI"
+        run: echo "Database URL: $SQLALCHEMY_DATABASE_URI"  # Uses the `run` key
 
       - name: Run Tests
         run: python -m unittest tests/test_*.py 
