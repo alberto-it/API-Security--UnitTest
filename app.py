@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_cors import CORS
 from flask_swagger_ui import get_swaggerui_blueprint
-from database import db
+from database import db, migrate
 from schemas import ma
 from limiter import limiter
 from caching import cache
