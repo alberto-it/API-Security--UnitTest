@@ -1,10 +1,12 @@
 from flask import Flask
 from flask_cors import CORS
 from flask_swagger_ui import get_swaggerui_blueprint
-from database import db, migrate
+from database import db
 from schemas import ma
 from limiter import limiter
 from caching import cache
+from flask_migrate import Migrate
+
 
 from models.customer_model import Customer
 from models.product_model import Product
@@ -39,6 +41,8 @@ def create_app(config_name):
     limiter.init_app(app)
     cache.init_app(app)
     CORS(app)
+
+    migrate = Migrate(app, db)
 
     app.register_blueprint(customer_bp, url_prefix='/customers')
     app.register_blueprint(product_bp, url_prefix='/products')
