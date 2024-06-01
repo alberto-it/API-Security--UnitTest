@@ -41,6 +41,7 @@ def create_app(config_name):
     ma.init_app(app)
     limiter.init_app(app)
     cache.init_app(app)
+    migrate.init_app(app, db)
     CORS(app)
 
     app.register_blueprint(customer_bp, url_prefix='/customers')
@@ -49,8 +50,6 @@ def create_app(config_name):
     app.register_blueprint(cart_bp, url_prefix='/cart')
     app.register_blueprint(token_bp, url_prefix='/token')
     app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
-
-    migrate.init_app(app, db)
 
     limiter.limit("100 per day")(customer_bp)
     limiter.limit("100 per day")(product_bp)
