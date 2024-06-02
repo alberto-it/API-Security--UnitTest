@@ -3,9 +3,6 @@ info:
   title: "E-Commerce API"
   description: "An API to manage E-Commerce"
   version: "1.0.0"
-
-schemes:
-  - "http"
 consumes:
   - "application/json"
 produces:
