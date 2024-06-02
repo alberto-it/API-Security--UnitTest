@@ -334,6 +334,7 @@ paths:
         - in: "path"
           name: customer_id
           type: integer
+          required: true
           description: ID of the customer
       responses:
         200:
