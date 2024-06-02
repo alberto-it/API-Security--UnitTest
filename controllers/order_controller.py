@@ -3,14 +3,14 @@ from schemas.order_schema import order_schema, orders_schema, track_order_schema
 from marshmallow import ValidationError
 from services import order_service
 from caching import cache
-from auth import token_auth
+# from auth import token_auth
 
-@token_auth.login_required
+# @token_auth.login_required
 def create_order():
     try:
         raw_data = request.json
-        logged_in_user = token_auth.current_user()
-        raw_data['customer_id'] = logged_in_user.id
+        # logged_in_user = token_auth.current_user()
+        # raw_data['customer_id'] = logged_in_user.id
         order_data = order_schema.load(raw_data)
         order_save = order_service.save(order_data)
         return order_schema.jsonify(order_save), 201

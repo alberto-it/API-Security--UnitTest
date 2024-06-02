@@ -3,9 +3,9 @@ from schemas.product_schema import product_schema, products_schema, product_upda
 from services import product_service
 from marshmallow import ValidationError
 from caching import cache
-from auth import token_auth
+# from auth import token_auth
 
-@token_auth.login_required(role='admin')
+# @token_auth.login_required(role='admin')
 def create_product():
     try:
         product_data = product_schema.load(request.json)
