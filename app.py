@@ -4,7 +4,7 @@ from flask_swagger_ui import get_swaggerui_blueprint
 from database import db
 from schemas import ma
 from limiter import limiter
-from caching import cache
+# from caching import cache
 from flask_migrate import Migrate
 
 from models.customer_model import Customer
@@ -40,7 +40,7 @@ def create_app(config_name):
     db.init_app(app)
     ma.init_app(app)
     limiter.init_app(app)
-    cache.init_app(app)
+    # cache.init_app(app)
     migrate.init_app(app, db)
     CORS(app)
 

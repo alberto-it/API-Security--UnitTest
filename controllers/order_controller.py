@@ -2,7 +2,7 @@ from flask import request, jsonify
 from schemas.order_schema import order_schema, orders_schema, track_order_schema
 from marshmallow import ValidationError
 from services import order_service
-from caching import cache
+# from caching import cache
 # from auth import token_auth
 
 # @token_auth.login_required
@@ -19,7 +19,7 @@ def create_order():
     except ValueError as err:
         return jsonify({'error': str(err)}), 400
 
-@cache.cached(timeout=60)
+# @cache.cached(timeout=60)
 def get_all_orders():
     orders = order_service.find_all()
     return orders_schema.jsonify(orders)

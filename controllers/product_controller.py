@@ -2,7 +2,7 @@ from flask import request, jsonify
 from schemas.product_schema import product_schema, products_schema, product_update_schema
 from services import product_service
 from marshmallow import ValidationError
-from caching import cache
+# from caching import cache
 # from auth import token_auth
 
 # @token_auth.login_required(role='admin')
@@ -16,7 +16,7 @@ def create_product():
     if product_save is not None: return product_schema.jsonify(product_save), 201
     return jsonify({"message": "Fallback method error activated", "body": product_data}), 400
 
-@cache.cached(timeout=60)
+# @cache.cached(timeout=60)
 def get_products():
     args = request.args
     page = args.get('page', 1, type=int)

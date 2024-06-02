@@ -3,9 +3,9 @@ info:
   title: "E-Commerce API"
   description: "An API to manage E-Commerce"
   version: "1.0.0"
-host: "advanced-ecommerce-api.onrender.com"
+
 schemes:
-  - "https"
+  - "http"
 consumes:
   - "application/json"
 produces:

@@ -7,7 +7,7 @@ from schemas.customer_schema import (
     customer_update_schema)
 from services import customer_service
 from marshmallow import ValidationError
-from caching import cache
+# from caching import cache
 
 def generate_token():
     try:
@@ -25,7 +25,7 @@ def save_customer():
     except ValidationError as err: return jsonify(err.messages), 400
     except ValueError as err: return jsonify({"error": str(err)}), 400
 
-@cache.cached(timeout=60)
+# @cache.cached(timeout=60)
 def find_all_customers():
     args = request.args
     page = args.get('page', 1, type=int)
