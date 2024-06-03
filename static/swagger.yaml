@@ -1,17 +1,23 @@
 swagger: "2.0"
 info:
   title: "E-Commerce API"
-  description: "An API to manage E-Commerce"
+  description: 'Customer, Product, Order Tracking and Shopping Cart Management'
   version: "1.0.0"
 consumes:
   - "application/json"
 produces:
   - "application/json"
 
+securityDefinitions:
+    bearerAuth:
+      type: apiKey
+      name: Authorization
+      in: header
+
 paths:
-  /token/:
+  /token:
     post:
-      summary: "Endpoint for User Authentication"
+      summary: "User Authentication"
       parameters:
         - in: "body"
           name: "body"
@@ -19,6 +25,7 @@ paths:
           required: true
           schema:
             $ref: "#/definitions/TokenCredentials"
+      tags: ["Login"]
       responses:
         200:
           description: "Login Successful"
@@ -56,8 +63,8 @@ paths:
         400:
           description: "Invalid Input"
     get:
-      summary: "Retrieve All Customers (pagination)"
-      description: "Retrieve a list of all customers with pagination"
+      summary: "Retrieve All Customers (with pagination)"
+      description: "Retrieve a list of all customers with pagination option"
       tags: ["Customers"]
       parameters:
         - in: "query"
@@ -75,6 +82,7 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/CustomerResponse"
+
   /customers/{customer_id}:
     get:
       summary: "Read Customer"
@@ -291,7 +299,7 @@ paths:
 
   /cart:
     post:
-      summary: Add Items to Cart | Update Item Quantity
+      summary: Add Items to Cart -or- Update Item Quantity
       description: "Executing for the first time for a customer will add items to the customer's shopping cart. Subsequent executions for the customer will add additional items to the cart. Executing multiple time with the same item will update the quantity. Negative quanities remove items (e.g. 'quantity': -1 will remove one item). Code will not allow quantity to be updated to less than zero."
       tags: ["Shopping Cart"]
       parameters:
@@ -478,12 +486,6 @@ definitions:
         type: "string"
         description: "The description of the error"
         example: "Invalid token. Please try again"
-
-  securityDefinitions:
-    bearerAuth:
-      type: apiKey
-      name: Authorization
-      in: header
 
   CustomerUpdate:
     type: "object"
